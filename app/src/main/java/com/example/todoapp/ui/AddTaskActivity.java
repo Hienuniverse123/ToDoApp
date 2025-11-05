@@ -101,7 +101,7 @@ public class AddTaskActivity extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng chọn ngày", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        ///11111
         // Lấy ngày tạo (hiện tại)
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String createdAt = sdf.format(Calendar.getInstance().getTime());
