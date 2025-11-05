@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">todoapp</string>
+    <!-- Facebook -->
+    <string name="facebook_app_id">815871084471317</string>
+    <string name="facebook_client_token">4b66dc0d7ec803f97e4e469658fcf1ba</string>
+    <string name="fb_login_protocol_scheme">fb815871084471317</string>
+
+    <!-- Google -->
+    <string name="default_web_client_id">AIzaSyB-jJkuhI-0HFyBD8WkVucvoVA8oT3h6GQ</string>
+</resources>
