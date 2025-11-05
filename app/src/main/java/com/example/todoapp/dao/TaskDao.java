@@ -19,6 +19,32 @@ public class TaskDao {
         tasksRef = FirebaseDatabase.getInstance().getReference("tasks");
     }
 
+    // 1. Thêm interface callback mới
+    public interface FirebaseTaskCallback {
+        void onSuccess(Task task);
+        void onFailure(String error);
+    }
+
+    // 2. Thêm hàm mới để lấy 1 task
+    public void getTaskById(String taskId, FirebaseTaskCallback callback) {
+        tasksRef.child(taskId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Task task = snapshot.getValue(Task.class);
+                    callback.onSuccess(task);
+                } else {
+                    callback.onFailure("Task không tồn tại");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
+    }
+
     // Thêm task
     public void addTask(Task task, FirebaseCallback callback) {
         String taskId = tasksRef.push().getKey();

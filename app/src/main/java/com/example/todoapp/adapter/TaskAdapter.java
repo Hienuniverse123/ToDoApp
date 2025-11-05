@@ -1,6 +1,7 @@
 package com.example.todoapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,15 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todoapp.R;
 import com.example.todoapp.dao.TaskDao;
 import com.example.todoapp.model.Task;
+import com.example.todoapp.ui.AddTaskActivity;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private Context context;
-    private List<Task> taskList;
-    private TaskDao taskDao;
+    // --- ĐÃ SỬA CÁC CẢNH BÁO MÀU VÀNG (THÊM 'final') ---
+    private final Context context;
+    private final List<Task> taskList;
+    private final TaskDao taskDao;
 
     public TaskAdapter(Context context, List<Task> taskList) {
         this.context = context;
@@ -93,12 +96,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         // 2. Khi nhấn vào toàn bộ Card (để Sửa/Chi tiết)
         holder.cardTask.setOnClickListener(v -> {
-            // TODO: Mở màn hình AddTaskActivity và gửi task qua Intent để sửa
-            // Ví dụ:
-            // Intent intent = new Intent(context, AddTaskActivity.class);
-            // intent.putExtra("TASK_ID", task.getId()); // Gửi ID để Activity mới tải chi tiết
-            // context.startActivity(intent);
-            Toast.makeText(context, "Mở màn hình sửa cho: " + task.getTitle(), Toast.LENGTH_SHORT).show();
+            // *** ĐÂY LÀ CODE MỚI ĐƯỢC CẬP NHẬT ***
+            // Mở AddTaskActivity và gửi ID của task qua
+            Intent intent = new Intent(context, AddTaskActivity.class);
+            // Gửi ID để Activity mới tải chi tiết
+            intent.putExtra("TASK_ID", task.getId());
+            context.startActivity(intent);
+
+            // Dòng code cũ của bạn đã bị thay thế:
+            // Toast.makeText(context, "Mở màn hình sửa cho: " + task.getTitle(), Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -128,11 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) { // ID của item đăng xuất trong main_menu.xml
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
             mAuth.signOut();
             goToLogin();
             return true;
+        } else if (id == R.id.action_profile) {
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            return true;
+        } else if (id == R.id.action_completed_task) {
+            startActivity(new Intent(MainActivity.this, CompletedTaskActivity.class));
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
