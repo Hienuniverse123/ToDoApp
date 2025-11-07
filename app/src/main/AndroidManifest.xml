@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Todoapp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.NotificationSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.CompletedTaskActivity"
             android:exported="false" />
         <activity

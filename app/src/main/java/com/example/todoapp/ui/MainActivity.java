@@ -140,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_completed_task) {
             startActivity(new Intent(MainActivity.this, CompletedTaskActivity.class));
             return true;
+        } else if (id == R.id.action_notification_settings) { // *** THÊM KHỐI LỆNH NÀY ***
+            startActivity(new Intent(MainActivity.this, NotificationSettingsActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
