@@ -45,7 +45,7 @@ dependencies {
     //Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
 
-    // 2. Xóa phiên bản khỏi các thư viện Firebase (BOM sẽ tự quản lý)
+    // Xóa phiên bản khỏi các thư viện Firebase (BOM sẽ tự quản lý)
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
 
@@ -56,4 +56,6 @@ dependencies {
     implementation ("com.google.android.material:material:1.12.0")
     //facebook sdk
     implementation("com.facebook.android:facebook-login:16.3.0")
+    //bumptech
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 }
