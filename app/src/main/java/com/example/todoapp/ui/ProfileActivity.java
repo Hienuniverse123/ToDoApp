@@ -15,8 +15,6 @@ import com.example.todoapp.model.User; // Cần User model
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-// (Thêm thư viện Glide hoặc Picasso để tải ảnh profile nếu có)
-// implementation 'com.github.bumptech.glide:glide:4.12.0'
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -59,10 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void loadUserProfile() {
         String uid = currentUser.getUid();
 
-        // Tải ảnh (nếu dùng Google/FB login)
-        // Glide.with(this).load(currentUser.getPhotoUrl()).into(ivProfileImage);
+        //Tải ảnh (nếu dùng Google/FB login)
+        //Glide.with(this).load(currentUser.getPhotoUrl()).into(ivProfileImage);
 
-        // Lấy thông tin từ Realtime Database (username)
+        //Lấy thông tin từ Realtime Database (username)
         userDao.getUserInfo(uid, new UserDao.FirebaseUserCallback() {
             @Override
             public void onSuccess(User user) {
@@ -72,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                // Nếu thất bại, ít nhất hiển thị email từ Auth
+                //Nếu thất bại, ít nhất hiển thị email từ Auth
                 tvEmail.setText(currentUser.getEmail());
                 tvUsername.setText(currentUser.getDisplayName()); // Tên từ Google/FB
             }

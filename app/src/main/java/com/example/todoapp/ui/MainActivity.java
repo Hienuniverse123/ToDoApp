@@ -21,20 +21,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // Dùng layout activity_main MỚI
+        setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
 
-        // --- Kiểm tra đăng nhập ---
-        // Nếu chưa đăng nhập, đá về Login ngay
+        //Kiểm tra đăng nhập
+        //Nếu chưa đăng nhập, đá về Login ngay
         if (mAuth.getCurrentUser() == null) {
             goToLogin();
-            return; // Quan trọng: Dừng onCreate nếu chưa đăng nhập
+            return; //Dừng onCreate nếu chưa đăng nhập
         }
 
         bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Xử lý sự kiện nhấn nút
+        //Xử lý sự kiện nhấn nút
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
@@ -54,29 +54,25 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // Tải Fragment mặc định (TasksFragment)
+        //Tải Fragment mặc định (TasksFragment)
         if (savedInstanceState == null) {
             bottomNav.setSelectedItemId(R.id.nav_tasks); // Đặt nút Tasks là mặc định
             loadFragment(new TaskFragment());
         }
     }
 
-    // Hàm helper để thay đổi Fragment
+    //Hàm helper để thay đổi Fragment
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
-    // Hàm goToLogin (Giữ nguyên)
+    //Hàm goToLogin
     private void goToLogin() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
-
-    // BẠN KHÔNG CẦN CÁC HÀM SAU TRONG MAINACTIVITY NỮA:
-    // onCreateOptionsMenu, onOptionsItemSelected, loadTasks, checkUserAndLoadTasks
-    // (Vì chúng đã được chuyển vào các Fragment)
 }

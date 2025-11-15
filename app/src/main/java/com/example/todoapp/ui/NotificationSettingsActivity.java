@@ -40,18 +40,18 @@ public class NotificationSettingsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        // Ánh xạ views
+        //Ánh xạ views
         toolbar = findViewById(R.id.toolbarNotification);
         switchNotifications = findViewById(R.id.switchNotifications);
         tvReminderTime = findViewById(R.id.tvReminderTime);
 
-        // Cài đặt Toolbar
+        //Cài đặt Toolbar
         toolbar.setNavigationOnClickListener(v -> finish()); // Nút 'X' để đóng
 
-        // Tải cài đặt đã lưu
+        //Tải cài đặt đã lưu
         loadSettings();
 
-        // Xử lý sự kiện
+        //Xử lý sự kiện
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // Lưu cài đặt Bật/Tắt
             saveBooleanSetting(KEY_NOTIFICATIONS_ENABLED, isChecked);
@@ -60,12 +60,12 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         });
 
         tvReminderTime.setOnClickListener(v -> {
-            // Hiển thị đồng hồ chọn giờ
+            //Hiển thị đồng hồ chọn giờ
             showTimePickerDialog();
         });
     }
 
-    // Tải cài đặt từ SharedPreferences
+    //Tải cài đặt từ SharedPreferences
     private void loadSettings() {
         boolean notificationsEnabled = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true);
         reminderHour = sharedPreferences.getInt(KEY_REMINDER_HOUR, 9);
@@ -76,27 +76,27 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         updateReminderTimeText();
     }
 
-    // Hiển thị đồng hồ
+    //Hiển thị đồng hồ
     private void showTimePickerDialog() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, hourOfDay, minute) -> {
                     reminderHour = hourOfDay;
                     reminderMinute = minute;
-                    // Lưu cài đặt mới
+                    //Lưu cài đặt mới
                     saveIntSetting(KEY_REMINDER_HOUR, reminderHour);
                     saveIntSetting(KEY_REMINDER_MINUTE, reminderMinute);
-                    // Cập nhật text
+                    //Cập nhật text
                     updateReminderTimeText();
                 },
                 reminderHour,
                 reminderMinute,
-                false // Dùng 12-hour (false) hay 24-hour (true)
+                false //Dùng 12-hour (false) hay 24-hour (true)
         );
         timePickerDialog.show();
     }
 
-    // Cập nhật text hiển thị giờ
+    //Cập nhật text hiển thị giờ
     private void updateReminderTimeText() {
         // Định dạng lại giờ cho đẹp
         String period = reminderHour < 12 ? "Sáng" : "Chiều";
@@ -106,14 +106,14 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         tvReminderTime.setText(String.format(Locale.getDefault(), "%d:%02d %s", displayHour, reminderMinute, period));
     }
 
-    // Hàm lưu (boolean)
+    //Hàm lưu (boolean)
     private void saveBooleanSetting(String key, boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, value);
         editor.apply();
     }
 
-    // Hàm lưu (int)
+    //Hàm lưu (int)
     private void saveIntSetting(String key, int value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);

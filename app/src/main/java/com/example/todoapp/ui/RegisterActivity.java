@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Đăng ký thành công trên Authentication
+                        //Đăng ký thành công trên Authentication
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser == null) {
                             Toast.makeText(this, "Không thể lấy thông tin user", Toast.LENGTH_SHORT).show();
@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String uid = firebaseUser.getUid();
 
                         User user = new User();
-                        user.setId(uid); // DÙNG UID TỪ AUTHENTICATION LÀM ID
+                        user.setId(uid); //DÙNG UID TỪ AUTHENTICATION LÀM ID
                         user.setUsername(username);
                         user.setEmail(email);
 
@@ -72,19 +72,19 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(String message) {
                                 Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                                finish(); // Quay lại trang Login
+                                finish(); //Quay lại trang Login
                             }
 
                             @Override
                             public void onFailure(String error) {
-                                // Vẫn thành công, nhưng chỉ là không lưu được info
+                                //Vẫn thành công, nhưng chỉ là không lưu được info
                                 Toast.makeText(RegisterActivity.this, "Đăng ký thành công (lỗi lưu info: " + error + ")", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         });
 
                     } else {
-                        // Đăng ký thất bại (ví dụ: email đã tồn tại, mật khẩu yếu)
+                        //Đăng ký thất bại (ví dụ: email đã tồn tại, mật khẩu yếu)
                         Toast.makeText(RegisterActivity.this, "Đăng ký thất bại: " + task.getException().getMessage(),
                                 Toast.LENGTH_LONG).show();
                     }

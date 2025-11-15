@@ -34,18 +34,18 @@ public class LoginActivity extends AppCompatActivity {
     private UserDao userDAO;
     private GoogleSignInClient googleSignInClient;
     private CallbackManager callbackManager;
-    private FirebaseAuth mAuth; // Khai báo FirebaseAuth
+    private FirebaseAuth mAuth; //Khai báo FirebaseAuth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // --- Khởi tạo ---
+        //Khởi tạo
         mAuth = FirebaseAuth.getInstance();
         userDAO = new UserDao();
 
-        // --- Ánh xạ view ---
+        //Ánh xạ view
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnFacebook = findViewById(R.id.btnFacebook);
         tvRegister = findViewById(R.id.tvRegister);
 
-        // --- Đăng nhập thường ---
+        //Đăng nhập thường
         btnLogin.setOnClickListener(v -> {
             String email = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -63,26 +63,26 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Dùng FirebaseAuth để đăng nhập
+            //Dùng FirebaseAuth để đăng nhập
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // Đăng nhập thành công
+                            //Đăng nhập thành công
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                             goToMainActivity();
                         } else {
-                            // Đăng nhập thất bại
+                            //Đăng nhập thất bại
                             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
         });
 
-        // --- Mở trang đăng ký ---
+        //Mở trang đăng ký
         tvRegister.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
 
-        // --- Google Sign-In ---
+        //Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
 
-        // --- Facebook Login ---
+        //Facebook Login
         callbackManager = CallbackManager.Factory.create();
 
         btnFacebook.setOnClickListener(v ->
@@ -104,8 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // *** PHẦN ĐÃ SỬA LẠI CHO ĐÚNG ***
-                // Đăng nhập Facebook thành công, giờ dùng token đó đăng nhập vào Firebase
+                //Đăng nhập Facebook thành công, giờ dùng token đó đăng nhập vào Firebase
                 Log.d("FacebookLogin", "Đăng nhập Facebook thành công. Token: " + loginResult.getAccessToken().getToken());
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
@@ -138,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // --- Hàm xử lý cho Google ---
+    //Hàm xử lý cho Google
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -157,26 +156,26 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // --- Hàm xử lý cho Facebook ---
+    //Hàm xử lý cho Facebook
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuthWithCredential(credential, null, null); // Tên và email sẽ lấy từ FirebaseUser
     }
 
-    // --- Hàm chung để xác thực Firebase ---
+    //Hàm chung để xác thực Firebase
     private void firebaseAuthWithCredential(AuthCredential credential, @Nullable String displayName, @Nullable String email) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, authTask -> {
                     if (authTask.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        // Kiểm tra xem đây có phải là người dùng mới không
+                        //Kiểm tra xem đây có phải là người dùng mới không
                         boolean isNewUser = authTask.getResult().getAdditionalUserInfo().isNewUser();
 
                         if (isNewUser && user != null) {
-                            // Nếu là user mới, lưu thông tin vào Realtime Database
+                            //Nếu là user mới, lưu thông tin vào Realtime Database
                             String uid = user.getUid();
-                            // Lấy tên/email. Ưu tiên lấy từ provider (Google) hoặc từ Firebase Auth profile
+                            //Lấy tên/email. Ưu tiên lấy từ provider (Google) hoặc từ Firebase Auth profile
                             String nameToSave = (displayName != null) ? displayName : user.getDisplayName();
                             String emailToSave = (email != null) ? email : user.getEmail();
 
@@ -204,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // --- Hàm chuyển màn hình ---
+    //Hàm chuyển màn hình
     private void goToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish(); // Đóng LoginActivity để người dùng không quay lại được
